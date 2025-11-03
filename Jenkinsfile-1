@@ -1,13 +1,13 @@
 pipeline {
-  // 1. Use 'agent any' to start the pipeline on the main Jenkins machine
   agent any
   stages {
     stage('Test') {
       steps {
-        // 2. Use the docker.image().inside() block for complete control
-        docker.image('node:16-alpine').inside('-v ${env.WORKSPACE}:/workspace -w /workspace') {
-          // 3. Your commands now run inside the container with the correct settings
-          sh 'node --version'
+        // Add the 'script' block to correctly run scripted pipeline commands
+        script {
+          docker.image('node:16-alpine').inside('-v ${env.WORKSPACE}:/workspace -w /workspace') {
+            sh 'node --version'
+          }
         }
       }
     }
