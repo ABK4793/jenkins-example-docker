@@ -1,14 +1,12 @@
 pipeline {
+  // Run on the main Jenkins node
   agent any
   stages {
     stage('Test') {
       steps {
-        // Add the 'script' block to correctly run scripted pipeline commands
-        script {
-          docker.image('node:16-alpine').inside('-v ${env.WORKSPACE}:/workspace -w /workspace') {
-            sh 'node --version'
-          }
-        }
+        // Use the Windows batch step 'bat' to call docker directly
+        // This gives us 100% control over the command and its arguments
+        bat 'docker run --rm -v "%WORKSPACE%:/workspace" -w /workspace node:16-alpine node --version'
       }
     }
   }
