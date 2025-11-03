@@ -1,12 +1,10 @@
 pipeline {
-  // Run on the main Jenkins node
   agent any
   stages {
-    stage('Test') {
+    stage('Test and Pause') {
       steps {
-        // Use the Windows batch step 'bat' to call docker directly
-        // This gives us 100% control over the command and its arguments
-        bat 'docker run --rm -v "%WORKSPACE%:/workspace" -w /workspace node:16-alpine node --version'
+        // This command will now print the version, a message, and then wait for 30 seconds
+        bat 'docker run --rm -v "%WORKSPACE%:/workspace" -w /workspace node:16-alpine sh -c "node --version && echo \'Container is now sleeping for 30 seconds...\' && sleep 30"'
       }
     }
   }
